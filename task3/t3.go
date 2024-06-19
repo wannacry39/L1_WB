@@ -1,17 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"sync/atomic"
+)
 
 func main() {
-	arr := [5]int{2, 4, 6, 8, 10}
-	ch := make(chan int)
-	var res int
-	for i := 0; i < 5; i++ {
-		go func() {
-			ch <- arr[i] * arr[i]
-		}()
-		tmp := <-ch
-		res += tmp
+	var sum int64
+	arr := [5]int64{2, 4, 6, 8, 10}
+	wg := sync.WaitGroup{}
+	wg.Add(5)
+	for i := 0; i < len(arr); i++ {
+		go func(i int) {
+			defer wg.Done()
+			atomic.AddInt64(&sum, arr[i]*arr[i])
+		}(i)
 	}
-	fmt.Println(res)
+	wg.Wait()
+	fmt.Printf("%d\n", sum)
+
 }

@@ -23,7 +23,7 @@ type Action struct {
 
 func main() {
 
-	act := Action{Human{}}
+	act := Action{}
 	act.Talk()
 	act.DoWork()
 

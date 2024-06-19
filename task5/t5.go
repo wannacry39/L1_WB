@@ -18,18 +18,29 @@ func main() {
 
 	for i := 1; ; i++ {
 		time.Sleep(300 * time.Millisecond)
-		if ctx.Err() == context.DeadlineExceeded {
-			break
+		select {
+		case _, ok := <-ch:
+			if !ok {
+				return
+			}
+		default:
+			ch <- i
+
 		}
-		ch <- i
+
 	}
 }
 
 func read(ctx context.Context, ch chan int) {
 	for {
-		if ctx.Err() == context.DeadlineExceeded {
-			break
+		select {
+		case <-ctx.Done():
+			close(ch)
+			fmt.Println("time is over")
+			return
+		default:
+			fmt.Println(<-ch)
 		}
-		fmt.Println(<-ch)
 	}
+
 }
