@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 
-	arr := []float32{-40.4, 21.6, 5.5, -17.0, -3.9, 0}
+	arr := []float32{-25.4, -27.0, 13.0, 19.0, 15.5, 24.5, -21.0, 32.5}
 
 	res := make(map[int][]float32)
 

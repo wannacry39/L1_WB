@@ -1,34 +1,32 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-/*
-1. Использование глобальной переменной justString. Недостатками использования глобальных переменных являются:
-- неконтролируемый жизненный цикл
-- невозможность иметь два экземпляра без изменения кода, использующего их
-- усложнение читаемости кода из-за неявных связей
-- неконтролируемый доступ
+// var justString string
+// func someFunc() {
+//   v := createHugeString(1 << 10)
+//   justString = v[:100]
+// }
 
-2. Когда в исходном коде мы присваиваем глобальной переменной justString значение v[:100], тем самым мы ссылаемся на область внутри SomeFunc из другого неймспейса.
-В результате этого есть вероятность, что значение v не будет очищено сборщиком мусора и мы долгое время будем хранить пойнтер на память (вероятнее всего, аллоцированную в куче),
-которая нам уже не требуется.
+// func main() {
+//   someFunc()
+// }
 
-*/
+// 1. Глобальная переменная justString. Глобальные переменные приводят к неконтролируемой области видимости и усложнению читаемости кода.
+// 2. Не возвращаем значение из функции someFunc(), а просто присваиваем полученный срез переменной justString. Может привести к тому, что
+// указатель не будет удален GC и будет занимать место в памяти.
 
 func main() {
-	var justString string = SomeFunc()
+	justString := someFunc()
+	fmt.Printf("%T", justString)
 	fmt.Println(justString)
-
 }
 
-func SomeFunc() string {
+func someFunc() string {
 	v := createHugeString(1 << 10)
-	fmt.Printf("%T", v[:100])
 	return v[:100]
 }
 
-func createHugeString(size int) string {
-	return string(make([]rune, size))
+func createHugeString(n int) string {
+	return string(make([]byte, n))
 }

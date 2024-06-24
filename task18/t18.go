@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
-	"sync/atomic"
+	// "sync/atomic"
 )
 
 type Counter struct {
@@ -26,15 +26,15 @@ func (c *Counter) get_val() int64 {
 func main() {
 	counter := newCounter()
 	wg := sync.WaitGroup{}
-	// m := sync.RWMutex{}
+	m := sync.Mutex{}
 	for i := 0; i < 1000; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			atomic.AddInt64(&counter.i, 1)
-			// m.Lock()
-			// counter.inc()
-			// m.Unlock()
+			// atomic.AddInt64(&counter.i, 1)
+			m.Lock()
+			counter.inc()
+			m.Unlock()
 		}()
 	}
 	wg.Wait()
