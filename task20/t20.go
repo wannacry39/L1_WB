@@ -3,22 +3,21 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
 
 func main() {
-	s, _ := bufio.NewReader(os.Stdin).ReadString('\n')
 
-	fmt.Println(Reverse(s))
-}
-
-func Reverse(s string) string {
-	sl := strings.Fields(s)
-	j := len(sl) - 1
-	for i := 0; i < j; i++ {
-		sl[i], sl[j] = sl[j], sl[i]
-		j--
+	str, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		log.Fatal("invalid input")
 	}
-	return strings.Join(sl, " ")
+	arr := strings.Fields(str)
+	for i := 0; i < len(arr)/2; i++ {
+		arr[i], arr[len(arr)-1-i] = arr[len(arr)-1-i], arr[i]
+	}
+	str = strings.Join(arr, " ")
+	fmt.Println(str)
 }

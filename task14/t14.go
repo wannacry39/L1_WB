@@ -2,15 +2,30 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 )
 
 func main() {
-	var vals []interface{}
-	ch := make(chan int)
-	vals = []interface{}{"word", 4, true, 4.56, []int{1, 2, 3}, ch}
-	for _, val := range vals {
-		fmt.Println(reflect.TypeOf(val))
-	}
+	var in interface{}
+	in = 5
+	typeof(in)
+	in = "hello"
+	typeof(in)
+	in = true
+	typeof(in)
+	in = make(chan interface{})
+	typeof(in)
 
+}
+
+func typeof(v interface{}) {
+	switch v.(type) {
+	case int:
+		fmt.Println("int")
+	case string:
+		fmt.Println("string")
+	case bool:
+		fmt.Println("bool")
+	case chan interface{}:
+		fmt.Println("channel")
+	}
 }
