@@ -35,6 +35,7 @@ func gen(ch chan int, t *time.Timer) {
 		case <-t.C:
 			close(ch)
 			fmt.Println("time is over")
+			return
 		default:
 			ch <- i
 		}

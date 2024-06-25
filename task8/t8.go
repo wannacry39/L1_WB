@@ -15,7 +15,7 @@ func main() {
 	fmt.Scanln(&bit)
 	tmp := 1 << bit
 	x = x ^ int64(tmp)
-	if x < 0 {
+	if x < 0 { // tracking overflow
 		x += 1
 		x = (x ^ int64(constant>>1)) + 2
 	}
